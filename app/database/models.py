@@ -18,13 +18,19 @@ class MeliAccount(Base):
     access_token = Column(String)
     refresh_token = Column(String)
     token_expiration = Column(DateTime)
+    greeting = Column(String)
+    valediction = Column(String)
 
     quick_answers = relationship("QuickAnswer", back_populates="user")
 
 
 class QuickAnswers(Base):
-    greeting = Column(String)
-    valediction = Column(String)
+    id = Column(Integer, primary_key=True, index=True)
+    account_id = Column(Integer, ForeignKey("user.id"), nullable=False)
+    text = Column(String)
+    color = Column(String)
+    name = Column(String)
+    order = Column(Integer)
 
     user = relationship("MeliAccount", back_populates="quick_answers")
 
