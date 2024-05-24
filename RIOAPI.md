@@ -75,3 +75,23 @@ Tablas:
   - `item_id` -> string
   - `status` -> string
   - `answer` -> json (`{ text: string, date_created: string | timestamp, status: string }`)
+- User (users):
+  - `id`
+  - `email`
+  - `password`
+  - `active_account`
+  - `role`
+
+Autenticacion: no permitir registros nuevos, un usuario admin por default que se verifica que exista cada vez que se reinicia la aplicación. Para crear nuevos usuarios lo hace este usuario u otro al cual se le asignen los permisos para hacerlo. Sesiones de DB para las sesiones de autenticación. (Con cookies? JWT?)
+
+Endpoints que usan cuentas de MELI: al recibir la request revisar el valor de `active_account` del usuario y trabajar el pedido sobre esa cuenta.
+
+Autorizacion de cuentas de MELI:
+
+- Endpoint para pedir la URL de autorizacion con los parametros necesarios + el state por seguridad.
+- Endpoint para recibir el Code de ML a intercambiar por las access_tokens , y el state que tiene que ser verificado.
+- Pensar como manejar permisos para usar X cuenta por Y usuario. (una tabla intermedia de users_meli_accounts_allowed?)
+
+Endpoint de notificaciones de MELI:
+
+- Tiene que recibir POST request que meli envia con notificaciones sobre eventos sucedidos en la plataforma, hay que distingir entre los tipos de eventos y procesarlos de las manera necesaria. (orders, items, questions) (optimo seria que esto se procese con una queue para tener retries y no estar corriendo el codigo en el ciclo de la request)
